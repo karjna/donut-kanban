@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Board/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Board from './components/Board.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    Board,
   },
 };
 </script>
 
 <style lang="scss">
 body {
-  background-color: #F4F3F8
+  background-color: #F4F3F8;
+  font-family: "Trebuchet MS", Helvetica, sans-serif
 }
 </style>

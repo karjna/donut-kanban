@@ -32,6 +32,10 @@ export default {
 <style scoped lang="scss">
  .board{
    text-align: center;
-   margin: 70px 20px;
+   margin: 70px auto;
+   display: table;
+   border-spacing: 15px;
  }
+
+
 </style>

@@ -3,8 +3,11 @@
     <div class = "column__content">
       <div class = "column__title">{{ title }}</div>
     </div>
-    <div v-if="createButton" @click="">
+    <div class = "tasks">
 
+    </div>
+    <div v-if="createButton" @click="newTodoModal" class = "column__button">
+      Create Task
     </div>
   </div>
 </template>
@@ -17,7 +20,10 @@ export default {
     createButton: Boolean,
   },
   methods:{
-
+    newTodoModal: function(){
+      this.$store.commit('whichModal', 'new');
+      this.$store.commit('showModal');
+    }
   }
 };
 </script>
@@ -29,7 +35,7 @@ export default {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    display: inline-block;
+    display: table-cell;
     text-align: left;
   }
 
@@ -43,5 +49,16 @@ export default {
 
   .column__title{
     font-weight: bold;
+  }
+
+  .column__button{
+    width:100%;
+    background-color: #7658F6;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    letter-spacing: 0.7px;
+
   }
 </style>

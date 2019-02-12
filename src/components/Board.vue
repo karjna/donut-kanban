@@ -1,30 +1,33 @@
 <template>
   <div class="board">
       <Column
-        v-for="item in columns"
+        v-for="item in columnList"
         v-bind:title="item.title"
         v-bind:createButton="item.createButton"
-        v-bind:key="item.id"></Column>
+        v-bind:columnId="item.id"
+        ></Column>
   </div>
 </template>
 
 <script>
 import Column from './Column.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Board',
+  data() {
+    return{
+
+    }
+  },
   components:{
     Column
   },
-  data() {
-    return{
-      columns: [
-        {id: 0, title: 'Backlog', createButton: true},
-        {id: 1, title: 'In Progress', createButton: true},
-        {id: 2, title: 'Completed', createButton: false}
-      ]
-    }
-  }
+  computed: mapState({
+    columnList: state => state.columnList,
+    
+  })
+
 };
 </script>
 

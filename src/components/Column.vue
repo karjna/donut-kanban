@@ -4,7 +4,7 @@
       <div class = "column__title">{{ title }}</div>
     </div>
     <div class = "tasks">
-
+      <Task v-for="item in taskList" v-bind:task="item" v-bind:columnId="columnId"/>
     </div>
     <div v-if="createButton" @click="newTodoModal" class = "column__button">
       Create Task
@@ -13,11 +13,28 @@
 </template>
 
 <script>
+import Task from './Task.vue';
+import { mapState } from 'vuex';
+
 export default {
   name: 'Column',
+  data() {
+    return{
+
+    }
+  },
   props: {
     title: String,
     createButton: Boolean,
+    columnId: Number,
+  },
+  components: {
+    Task
+  },
+  computed: {
+    taskList () {
+      return this.$store.getters.getTaskByColumnId(this.columnId)
+    }
   },
   methods:{
     newTodoModal: function(){
@@ -37,6 +54,8 @@ export default {
     overflow: hidden;
     display: table-cell;
     text-align: left;
+    position: relative;
+    padding-bottom: 50px;
   }
 
   .column + .column{
@@ -59,6 +78,11 @@ export default {
     padding: 10px;
     font-size: 14px;
     letter-spacing: 0.7px;
+    position: absolute;
+    bottom:0;
+  }
 
+  .tasks{
+    margin: 0 10px;
   }
 </style>

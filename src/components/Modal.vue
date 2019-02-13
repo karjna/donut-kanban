@@ -6,16 +6,16 @@
         <div class = "modal__header" v-if="showEdit">Edit Task</div>
         <div class = "modal__header" v-else>Create New Task</div>
         <form>
-          <input type="text" placeholder="Title"/>
-          <textarea placeholder="Description (optional)"></textarea>
-          <input type="date" placeholder="Due On"/>
+          <input type="text" placeholder="Name" v-model="newTask.name"/>
+          <textarea placeholder="Description (optional)" v-model="newTask.description"></textarea>
+          <input type="date" placeholder="Due On" v-model="newTask.dueDate"/>
         </form>
         <div class = "modal__footer">
           <div class = "btn btn--red" v-if="showEdit" @click="">Delete</div>
           <div class = "float-right">
             <div class = "btn btn--white" @click="hideModal">Cancel</div>
             <div class = "btn btn--purple" @click="" v-if="showEdit">Save</div>
-            <div class = "btn btn--purple" @click="" v-if="!showEdit">Create</div>
+            <div class = "btn btn--purple" @click="createTask" v-if="!showEdit">Create</div>
           </div>
         </div>
       </div>
@@ -31,6 +31,18 @@ export default {
   name: 'Modal',
   props: {
     modalAction: String,
+    modalColumn: Number
+  },
+  data() {
+    return{
+      newTask: {
+        id:0,
+        name: "",
+        description: "",
+        dueDate: "",
+        columnId: this.modalColumn,
+      }
+    }
   },
   computed: {
     showEdit: function() {
@@ -39,6 +51,12 @@ export default {
   },
   methods:{
     hideModal: function(){
+      this.$store.commit('hideModal');
+    },
+    createTask: function(){
+      this.$store.commit('addTask', {
+        task: this.newTask
+      });
       this.$store.commit('hideModal');
     }
   }

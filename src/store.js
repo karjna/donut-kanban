@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     showModal: false,
     modalAction: 'new',
+    modalColumn: 0,
     taskList:[
       {
         id:0,
@@ -44,11 +45,12 @@ export default new Vuex.Store({
     hideModal (state) {
       state.showModal = false;
     },
-    whichModal (state, action) {
-      state.modalAction = action
+    whichModal (state, modalInfo) {
+      state.modalAction = modalInfo.action
+      state.modalColumn = modalInfo.columnId
     },
     addTask (state, taskObject) {
-      state.columnList[taskObject.id].tasks.push(taskObject.task)
+      state.taskList.push(taskObject.task)
     },
     changeColumn (state, taskAndColumn) {
       var index = state.taskList.findIndex(task => task.id == taskAndColumn.taskId)

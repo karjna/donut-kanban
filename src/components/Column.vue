@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div class="column" v-bind:class="firstLast">
     <div class = "column__content">
       <div class = "column__title">{{ title }}</div>
     </div>
@@ -34,11 +34,22 @@ export default {
   computed: {
     taskList () {
       return this.$store.getters.getTaskByColumnId(this.columnId)
+    },
+    firstLast: function() {
+      if (this.columnId + 1 == this.$store.state.columnList.length) {
+        return 'column--last'
+      }
+      if (this.columnId == 0) {
+        return 'column--first'
+      }
     }
   },
   methods:{
     newTodoModal: function(){
-      this.$store.commit('whichModal', 'new');
+      this.$store.commit('whichModal', {
+        action:'new',
+        columnId: this.columnId
+      });
       this.$store.commit('showModal');
     }
   }
@@ -63,11 +74,12 @@ export default {
   }
 
   .column__content{
-    padding: 30px 25px;
+    padding: 25px 25px 20px;
   }
 
   .column__title{
     font-weight: bold;
+    font-size: 14px;
   }
 
   .column__button{
@@ -83,6 +95,12 @@ export default {
   }
 
   .tasks{
-    margin: 0 10px;
+    margin: 0 7px;
+  }
+
+  .column--first{
+    .column__button{
+      background-color: #60A7F0
+    }
   }
 </style>

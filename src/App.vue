@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Board/>
-    <Modal v-bind:modalAction="modalAction" v-show="showModal"/>
+    <Modal v-bind:modalAction="modalAction" v-bind:modalColumn="modalColumn" v-show="showModal"/>
   </div>
 </template>
 
@@ -22,7 +22,8 @@ export default {
   },
   computed: mapState([
       'showModal',
-      'modalAction'
+      'modalAction',
+      'modalColumn',
     ]),
   methods: {
   }

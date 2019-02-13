@@ -8,16 +8,12 @@
         {{ task.description }}
       </div>
       <div class = "task__date">
-        <i class="fas fa-calendar-day"></i> Due {{ task.dueDate }}
+        <i class="fas fa-calendar-day"></i> Due {{ task.dueDate | moment("MMMM D, YYYY")}}
       </div>
     </div>
     <div class = "actions">
-      <div v-if = "beforeColumn" class = "action action__before" @click="moveToBefore">
-        {{ beforeColumn.action }}
-      </div>
-      <div v-if = "afterColumn" class = "action action__after" @click="moveToAfter">
-        {{ afterColumn.action }}
-      </div>
+      <div v-if = "beforeColumn" class = "action action--before" @click="moveToBefore"  v-html="firstLast(beforeColumn)"></div>
+      <div v-if = "afterColumn" class = "action action--after" @click="moveToAfter"  v-html="firstLast(afterColumn)"></div>
     </div>
   </div>
 </template>
@@ -28,8 +24,8 @@ export default {
   name: 'Task',
   data() {
     return{
-      beforeButtonText: 'Undo',
-      afterButtonText: 'Start',
+      firstColumnClass: "Start",
+      lastColumnClass: "Undo"
     }
   },
   props: {
@@ -37,19 +33,18 @@ export default {
     columnId: Number
   },
   computed:{
-    beforeColumn: function(){
-      if (this.columnId - 1 > 0){
+    beforeColumn: function () {
+      if (this.columnId - 1 >= 0){
         return this.$store.state.columnList[this.columnId-1]
       }
       return false
     },
-    afterColumn: function(){
+    afterColumn: function () {
       if (this.columnId + 1 < this.$store.state.columnList.length){
         return this.$store.state.columnList[this.columnId+1]
       }
       return false
     },
-
 
   },
   methods:{
@@ -64,6 +59,15 @@ export default {
         taskId: this.task.id,
         columnId: this.beforeColumn.id
       })
+    },
+    firstLast: function (column) {
+        if (this.columnId + 1 == this.$store.state.columnList.length) {
+          return this.lastColumnClass
+        }else if (this.columnId == 0) {
+          return this.firstColumnClass
+        }else{
+          return column.action
+        }
     }
 
   }
@@ -76,12 +80,16 @@ export default {
     border-radius: 5px;
   }
 
+  .task + .task{
+    margin-top: 10px;
+  }
+
   .task__content{
     border: 2px solid #E9E9F0;
     border-bottom: 0px;
     border-radius: 5px 5px 0 0px;
-    padding: 15px;
-    font-size: 13px;
+    padding: 20px 15px;
+    font-size: 12px;
   }
 
   .task__title{
@@ -96,14 +104,31 @@ export default {
 
   .task__date{
     color:#7658F6;
+    font-style: italic;
+  }
+
+  .actions{
+    display: flex;
+    border-radius: 0px 0px 5px 5px;
+    overflow: hidden;
   }
 
   .action{
-    background-color: #7658F6;
+    background-color: #60A7F0;
     color:white;
-    border-radius: 0px 0px 5px 5px;
     text-align: center;
     font-size: 12px;
-    padding: 7px;
+    padding: 10px 7px;
+    flex-grow: 1;
+  }
+
+  .action--after{
+    background-color: #5DCEBD;
+  }
+
+  .column--first{
+    .action{
+      background-color: #7658F6
+    }
   }
 </style>

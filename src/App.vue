@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Board/>
-    <Modal v-bind:modalAction="modalAction" v-bind:modalColumn="modalColumn" v-show="showModal"/>
+    <Modal v-bind:modalAction="modalAction" v-bind:modalColumn="modalColumn" v-if="showModal"/>
   </div>
 </template>
 

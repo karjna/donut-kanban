@@ -92,6 +92,7 @@ export default {
     letter-spacing: 0.7px;
     position: absolute;
     bottom:0;
+    cursor: pointer;
   }
 
   .tasks{

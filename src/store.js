@@ -9,6 +9,7 @@ export default new Vuex.Store({
     modalAction: 'new',
     modalColumn: 0,
     taskId: null,
+    currentId: 0,
     taskList:[
       {
         id:0,
@@ -52,7 +53,8 @@ export default new Vuex.Store({
       state.taskId = modalInfo.taskId
     },
     addTask (state, taskObject) {
-      taskObject.task.id = state.taskList.length;
+      Vue.set(state, 'currentId', state.currentId + 1);
+      taskObject.task.id = state.currentId;
       taskObject.task.columnId = state.modalColumn;
       state.taskList.push(taskObject.task)
     },

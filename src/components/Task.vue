@@ -24,8 +24,8 @@ export default {
   name: 'Task',
   data() {
     return{
-      firstColumnClass: "Start",
-      lastColumnClass: "Undo"
+      firstColumnText: "Start",
+      lastColumnText: "Undo"
     }
   },
   props: {
@@ -62,9 +62,9 @@ export default {
     },
     firstLast: function (column) {
         if (this.columnId + 1 == this.$store.state.columnList.length) {
-          return this.lastColumnClass
+          return this.lastColumnText
         }else if (this.columnId == 0) {
-          return this.firstColumnClass
+          return this.firstColumnText
         }else{
           return column.action
         }
@@ -97,6 +97,11 @@ export default {
     border-radius: 5px 5px 0 0px;
     padding: 20px 15px;
     font-size: 12px;
+    &:hover{
+      .task__title i{
+        display: inline-block;
+      }
+    }
   }
 
   .task__title{
@@ -112,11 +117,7 @@ export default {
         color: #60A7F0;
       }
     }
-    &:hover{
-      i{
-        display: inline-block;
-      }
-    }
+
   }
 
   .task__desc{

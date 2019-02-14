@@ -11,13 +11,7 @@ export default new Vuex.Store({
     taskId: null,
     currentId: 0,
     taskList:[
-      {
-        id:0,
-        name: "this is my task",
-        description: "this is its description",
-        dueDate: "2017-06-01",
-        columnId: 0,
-      }
+  
     ],
     columnList:[
       {
@@ -64,6 +58,10 @@ export default new Vuex.Store({
     },
     saveEdits (state, editedTask) {
       Vue.set(state.taskList, editedTask.id, editedTask)
+    },
+    deleteTask(state, taskId) {
+      var index = state.taskList.findIndex(task => task.id == taskId)
+      var deleted = state.taskList.splice(index, 1)
     }
   },
   actions: {

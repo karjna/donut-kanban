@@ -11,7 +11,7 @@
           <input type="date" placeholder="Due On" v-model="tempTask.dueDate"/>
         </form>
         <div class = "modal__footer">
-          <div class = "btn btn--red" v-if="showEdit" @click="">Delete</div>
+          <div class = "btn btn--red" v-if="showEdit" @click="deleteTask">Delete</div>
           <div class = "float-right">
             <div class = "btn btn--white" @click="hideModal">Cancel</div>
             <div class = "btn btn--purple" @click="saveTask" v-if="showEdit">Save</div>
@@ -83,7 +83,10 @@ export default {
       });
       this.resetForm();
       this.$store.commit('hideModal');
-
+    },
+    deleteTask: function () {
+      this.$store.commit('deleteTask', this.editedTask.id);
+      this.$store.commit('hideModal');
     }
   }
 };

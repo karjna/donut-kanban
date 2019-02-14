@@ -5,16 +5,16 @@
       <div class = "modal__content">
         <div class = "modal__header" v-if="showEdit">Edit Task</div>
         <div class = "modal__header" v-else>Create New Task</div>
-        <form>
-          <input type="text" placeholder="Name" v-model="newTask.name"/>
-          <textarea placeholder="Description (optional)" v-model="newTask.description"></textarea>
-          <input type="date" placeholder="Due On" v-model="newTask.dueDate"/>
+        <form @submit.prevent="showEdit? saveTask : createTask">
+          <input type="text" placeholder="Name" v-model="tempTask.name"/>
+          <textarea placeholder="Description (optional)" v-model="tempTask.description"></textarea>
+          <input type="date" placeholder="Due On" v-model="tempTask.dueDate"/>
         </form>
         <div class = "modal__footer">
           <div class = "btn btn--red" v-if="showEdit" @click="">Delete</div>
           <div class = "float-right">
             <div class = "btn btn--white" @click="hideModal">Cancel</div>
-            <div class = "btn btn--purple" @click="" v-if="showEdit">Save</div>
+            <div class = "btn btn--purple" @click="saveTask" v-if="showEdit">Save</div>
             <div class = "btn btn--purple" @click="createTask" v-if="!showEdit">Create</div>
           </div>
         </div>
@@ -35,29 +35,55 @@ export default {
   },
   data() {
     return{
-      newTask: {
-        id:0,
-        name: "",
-        description: "",
-        dueDate: "",
-        columnId: this.modalColumn,
-      }
+
     }
   },
-  computed: {
+  computed: mapState({
     showEdit: function() {
       return this.modalAction == 'edit'
-    }
-  },
+    },
+    editedTask: function () {
+      if (this.showEdit) {
+        return Object.assign({}, this.$store.getters.getTaskById()[0]);
+      }else {
+        return false
+      }
+    },
+    tempTask: function() {
+      return {
+        name: this.showEdit ? this.editedTask.name : "",
+        description: this.showEdit ? this.editedTask.description : "",
+        dueDate: this.showEdit ? this.editedTask.dueDate : "",
+      }
+    },
+  }),
   methods:{
-    hideModal: function(){
+    hideModal: function () {
       this.$store.commit('hideModal');
     },
-    createTask: function(){
+    resetForm: function () {
+      this.tempTask.name = "";
+      this.tempTask.description = "";
+      this.tempTask.dueDate = "";
+    },
+    createTask: function () {
       this.$store.commit('addTask', {
-        task: this.newTask
+        task: Object.assign({}, this.tempTask)
       });
+      this.resetForm();
       this.$store.commit('hideModal');
+    },
+    saveTask: function () {
+      this.$store.commit('saveEdits', {
+        id: this.editedTask.id,
+        name: this.tempTask.name,
+        description: this.tempTask.description,
+        dueDate: this.tempTask.dueDate,
+        columnId:  this.editedTask.columnId,
+      });
+      this.resetForm();
+      this.$store.commit('hideModal');
+
     }
   }
 };
@@ -140,6 +166,7 @@ export default {
     font-size: 13px;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
   }
 
   .btn--purple{

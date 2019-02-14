@@ -56,8 +56,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
   .column{
     width:240px;
     background-color: #fff;
@@ -102,6 +101,13 @@ export default {
   .column--first{
     .column__button{
       background-color: #60A7F0
+    }
+  }
+
+  .column--last{
+    .task{
+      background-color: #E9E9F0;
+      font-style: italic;
     }
   }
 </style>

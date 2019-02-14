@@ -2,12 +2,12 @@
   <div class="task">
     <div class = "task__content">
       <div class = "task__title">
-        {{ task.name }}
+        {{ task.name }}<i class="fas fa-pencil-alt" @click="editModal"></i>
       </div>
       <div class = "task__desc">
         {{ task.description }}
       </div>
-      <div class = "task__date">
+      <div class = "task__date" v-if = "task.dueDate">
         <i class="fas fa-calendar-day"></i> Due {{ task.dueDate | moment("MMMM D, YYYY")}}
       </div>
     </div>
@@ -68,6 +68,13 @@ export default {
         }else{
           return column.action
         }
+    },
+    editModal: function(){
+      this.$store.commit('whichModal', {
+        action:'edit',
+        taskId: this.task.id
+      });
+      this.$store.commit('showModal');
     }
 
   }
@@ -95,6 +102,21 @@ export default {
   .task__title{
     font-weight: bold;
     text-transform: capitalize;
+    i{
+      margin-left: 5px;
+      font-size: 12px;
+      color:#7658F6;
+      display: none;
+      cursor: pointer;
+      &:hover{
+        color: #60A7F0;
+      }
+    }
+    &:hover{
+      i{
+        display: inline-block;
+      }
+    }
   }
 
   .task__desc{
@@ -120,6 +142,7 @@ export default {
     font-size: 12px;
     padding: 10px 7px;
     flex-grow: 1;
+    cursor: pointer;
   }
 
   .action--after{

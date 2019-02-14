@@ -1,14 +1,5 @@
 # Kanban for Donut
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This app uses Vue and VueX to create a simple kanban board.
 
 ## About
 A simple web app that lets you add and manage tasks, kanban style.
@@ -21,3 +12,14 @@ Users are able to…
 - Edit the task’s title, message, and due date
 - Move tasks between states
 - Delete tasks
+
+
+## Project setup
+```
+npm install
+```
+
+### Compile and serve up on localhost
+```
+npm run serve
+```
